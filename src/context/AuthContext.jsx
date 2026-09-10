@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import api from "../services/api";
 
 // Create context to manage global authentication state across the app
 const AuthContext = createContext({
@@ -20,12 +21,7 @@ const AuthProvider = ({ children }) => {
   // Verifies user session with the backend using HttpOnly cookies
   const checkAuthStatus = async () => {
     try {
-      const response = await axios.get(
-        "https://techcoach-io-backend.onrender.com/api/auth/me",
-        {
-          withCredentials: true,
-        },
-      );
+      const response = await api.get("/api/auth/me");
       setUser(response.data);
       setIsAuthenticated(true);
     } catch (error) {
@@ -39,13 +35,7 @@ const AuthProvider = ({ children }) => {
   // Clears user session on the backend and local state
   const logout = async () => {
     try {
-      await axios.post(
-        "https://techcoach-io-backend.onrender.com/api/auth/logout",
-        {},
-        {
-          withCredentials: true,
-        },
-      );
+      await api.post("/api/auth/logout");
       setUser(null);
       setIsAuthenticated(false);
       localStorage.removeItem("activeInterviewId");
@@ -58,11 +48,7 @@ const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     console.log("Attempting login with credentials:", credentials);
     try {
-      await axios.post(
-        "https://techcoach-io-backend.onrender.com/api/auth/login",
-        { ...credentials },
-        { withCredentials: true },
-      );
+      await api.post("/api/auth/login", credentials);
 
       await checkAuthStatus();
 
@@ -78,11 +64,7 @@ const AuthProvider = ({ children }) => {
   const registerUser = async (credentials) => {
     console.log("Attempting registration with credentials:", credentials);
     try {
-      await axios.post(
-        "https://techcoach-io-backend.onrender.com/api/auth/register",
-        { ...credentials },
-        { withCredentials: true },
-      );
+      await api.post("/api/auth/register", { ...credentials });
 
       await checkAuthStatus();
 
