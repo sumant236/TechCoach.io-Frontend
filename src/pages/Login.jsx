@@ -20,8 +20,7 @@ const Login = () => {
 
   // Redirects the browser to the backend OAuth2 Google entry point
   const handleGoogleLogin = () => {
-    window.location.href =
-      "https://techcoach-io-backend.onrender.com/oauth2/authorization/google";
+    window.location.href = `${import.meta.env.API_BASE_URL}/oauth2/authorization/google`;
   };
 
   // Handles standard email/password form submission

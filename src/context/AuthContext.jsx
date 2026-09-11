@@ -46,11 +46,11 @@ const AuthProvider = ({ children }) => {
 
   // Authenticates user and refreshes auth status
   const login = async (credentials) => {
-    console.log("Attempting login with credentials:", credentials);
     try {
-      await api.post("/api/auth/login", credentials);
-
-      await checkAuthStatus();
+      const response = await api.post("/api/auth/login", credentials);
+      setUser(response.data.data);
+      setIsAuthenticated(true);
+      // await checkAuthStatus();
 
       return { success: true };
     } catch (error) {
@@ -62,15 +62,15 @@ const AuthProvider = ({ children }) => {
 
   // Registers a new user and authenticates them automatically
   const registerUser = async (credentials) => {
-    console.log("Attempting registration with credentials:", credentials);
     try {
-      await api.post("/api/auth/register", { ...credentials });
+      const response = await api.post("/api/auth/register", credentials);
+      setUser(response.data.data);
+      setIsAuthenticated(true);
 
-      await checkAuthStatus();
+      // await checkAuthStatus();
 
       return { success: true };
     } catch (error) {
-      console.log("Registration error:", error.response?.data || error);
       const errorMessage =
         error.response?.data?.message || "Registration failed!";
       return { success: false, message: errorMessage };
