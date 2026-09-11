@@ -188,7 +188,7 @@ const Dashboard = () => {
     setIsFetchingHistory(true);
     try {
       const response = await api.get("/api/interviews/history");
-      setHistory(response.data.data);
+      setHistory(response?.data?.data || []);
     } catch (err) {
       console.error("Failed to fetch history", err);
     } finally {

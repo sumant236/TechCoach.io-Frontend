@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an Axios instance with a base URL and default settings
 const api = axios.create({
-  baseURL: import.meta.env.API_BASE_URL, // Use environment variable for backend URL
+  baseURL: import.meta.env.VITE_API_BASE_URL, // Use environment variable for backend URL
   // Forces the browser to automatically attach HttpOnly cookies to every request
   withCredentials: true,
 });
