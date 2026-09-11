@@ -23,7 +23,7 @@ const OAuth2RedirectHandler = () => {
       navigate("/dashboard", { replace: true });
     } else {
       // Redirect to login if authentication failed or token is missing
-      navigate("/login");
+      navigate("/login", { replace: true });
     }
   }, [location, navigate]);
 

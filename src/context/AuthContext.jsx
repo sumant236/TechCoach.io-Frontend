@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import api from "../services/api";
 
@@ -18,11 +17,11 @@ const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Verifies user session with the backend using HttpOnly cookies
+  // Verifies user session with the backend using bearer token authentication
   const checkAuthStatus = async () => {
     try {
       const response = await api.get("/api/auth/me");
-      setUser(response.data);
+      setUser(response.data.data);
       setIsAuthenticated(true);
     } catch (error) {
       setUser(null);
@@ -36,22 +35,24 @@ const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await api.post("/api/auth/logout");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
       setUser(null);
       setIsAuthenticated(false);
       localStorage.removeItem("activeInterviewId");
-    } catch (error) {
-      console.error("Logout failed:", error);
+      localStorage.removeItem("jwt_token");
     }
   };
 
-  // Authenticates user and refreshes auth status
+  // Authenticates user and stores jwt token in local storage
   const login = async (credentials) => {
     try {
       const response = await api.post("/api/auth/login", credentials);
-      setUser(response.data.data);
+      const authData = response.data.data;
+      setUser(authData.user);
       setIsAuthenticated(true);
-      // await checkAuthStatus();
-
+      localStorage.setItem("jwt_token", authData.token);
       return { success: true };
     } catch (error) {
       const errorMessage =
@@ -60,14 +61,14 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Registers a new user and authenticates them automatically
+  // Registers a new user and stores jwt token in local storage
   const registerUser = async (credentials) => {
     try {
       const response = await api.post("/api/auth/register", credentials);
-      setUser(response.data.data);
+      const authData = response.data.data;
+      setUser(authData.user);
       setIsAuthenticated(true);
-
-      // await checkAuthStatus();
+      localStorage.setItem("jwt_token", authData.token);
 
       return { success: true };
     } catch (error) {
