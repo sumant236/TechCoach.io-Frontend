@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
 import Register from "./pages/Register";
+import OAuth2RedirectHandler from "./components/OAuth2RedirectHandler";
 
 function App() {
   return (
@@ -42,6 +43,9 @@ function App() {
 
             {/* Default Route: Automatically redirects root traffic to the login portal */}
             <Route path="/" element={<Navigate to="/login" replace />} />
+
+            {/* OAuth2 Redirect Callback Route: Captures token from URL and initializes session */}
+            <Route path="/oauth-success" element={<OAuth2RedirectHandler />} />
 
             {/* Protected Route: Restricted area requiring valid authentication session cookies */}
             <Route
