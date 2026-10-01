@@ -4,12 +4,14 @@ A modern, highly responsive single-page application built with **React** and **T
 
 > **🔗 Repositories:**
 >
-> - **Backend Repository:** [GitHub Repository](https://www.google.com/search?q=https://github.com/sumant236/TechCoach.io)
+> - **Backend Repository:** [GitHub Repository](https://github.com/sumant236/TechCoach.io)
 > - **Frontend Repository:** [GitHub Repository](https://github.com/sumant236/TechCoach.io-Frontend.git)
 
 > **🚀 Live Deployment:**
 >
-> - **Backend API / App:** [https://techcoach-io.vercel.app](https://techcoach-io.vercel.app)
+> - **Frontend Deployed:** [Vercel](https://techcoach-io.vercel.app)
+> - **Backend Deployed:** [Render](https://render.com) (Cloud Web Service)
+> - **Database:** [Supabase](https://supabase.com) (Cloud-hosted PostgreSQL)
 
 ---
 
@@ -37,7 +39,9 @@ A modern, highly responsive single-page application built with **React** and **T
 
 ## 🗄️ Deployment & Integration Infrastructure
 
-- **Client-Server Communication:** The frontend communicates via REST APIs with the Spring Boot backend hosted on Render.
+- **Frontend Hosting:** Deployed as a modern Single Page Application on **Vercel**.
+- **Backend Hosting:** Communicates via REST APIs with the Spring Boot backend hosted on **Render**.
+- **Database:** Persistence layer powered by cloud-hosted PostgreSQL on **Supabase**.
 - **Token Management:** Authenticated sessions use Bearer tokens stored locally in the browser (`localStorage`), ensuring cross-origin compatibility across modern browsers and mobile devices.
 - **Environment Configuration:** Securely injects production backend endpoints using Vite environment variables.
 
