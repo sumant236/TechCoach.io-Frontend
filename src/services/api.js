@@ -8,12 +8,19 @@ const api = axios.create({
 // Intercepts every outgoing HTTP request before it leaves the browser
 api.interceptors.request.use(
   (config) => {
-    // Retrieve the saved JWT token from browser storage
-    const token = localStorage.getItem("jwt_token");
+    // Only attach token if the request is NOT for public login or register
+    const isPublicAuthRoute =
+      config.url?.includes("/api/auth/login") ||
+      config.url?.includes("/api/auth/register");
 
-    // If token exists, attach it to the standard Authorization header
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (!isPublicAuthRoute) {
+      // Retrieve the saved JWT token from browser storage if the request is not for login or registration
+      const token = localStorage.getItem("jwt_token");
+
+      // If token exists, attach it to the standard Authorization header
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config; // Allow the request to continue to the backend
   },

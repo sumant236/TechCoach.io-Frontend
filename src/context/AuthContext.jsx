@@ -21,8 +21,10 @@ const AuthProvider = ({ children }) => {
   const checkAuthStatus = async () => {
     try {
       const response = await api.get("/api/auth/me");
-      setUser(response.data.data);
-      setIsAuthenticated(true);
+      if (response.data && response.data.data) {
+        setUser(response.data.data);
+        setIsAuthenticated(true);
+      }
     } catch (error) {
       setUser(null);
       setIsAuthenticated(false);
